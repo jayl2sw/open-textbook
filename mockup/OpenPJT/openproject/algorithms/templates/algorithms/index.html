@@ -1,0 +1,15 @@
+{% extends 'algorithm_base.html' %}
+
+{% block subtitle %}
+  알고리즘
+{% endblock subtitle %}
+
+{% block detail %}
+  {% for algorithm in algorithms %}
+    {{ algorithm }}
+  {% endfor %}
+  
+  <a href="{% url 'algorithms:create' %}" class="btn btn-dark">NEW</a>
+  
+{% endblock detail %}
+

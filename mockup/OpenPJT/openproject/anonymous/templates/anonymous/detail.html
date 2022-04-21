@@ -1,0 +1,97 @@
+{% extends 'detail_base.html' %}
+
+{% block subtitle %}
+익명 게시판
+{% endblock subtitle %}
+
+{% block detail %}
+<div id='detail'>
+  <table class="table my-1">
+    <thead>
+      <tr class="fs-2 fw-bold text-center">
+        <th scope="col">{{ anonymous.title }}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <div class='d-flex justify-content-end align-items-center'>
+            <span>{{ anonymous.created_string }}</span>
+            <a href="" class="btn text-decoration-underline">수정</a>
+            <form action="{% url 'anonymous:delete' anonymous.pk %}" method="POST" class="d-inline">
+              {% csrf_token %}
+              <button class="btn text-decoration-underline">삭제</button>
+            </form>
+          </div>
+          <div>
+            <br><br><br><br>
+            {{ anonymous.content }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <form action="{% url 'anonymous:like_article' anonymous.pk %}" method = "POST">
+      {% csrf_token %}
+      <button class="btn border">좋아요 <br>{{ anonymous.like_users.all|length }}</button>
+    </form>
+  </div>
+</div>
+{% endblock detail %}
+
+{% block comment %}
+<div id='comment'>
+  <table class="table my-1 table-borderless">
+    <thead>
+      <tr class="fs-6 text-center">
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id='create_comment'>
+          <form action="{% url 'anonymous:create_comment' anonymous.pk %}" method="POST" class='row'>
+            {% csrf_token %}
+            <div class="col-11">
+              {{ comment_form.content }}
+            </div>
+            <div class="col-1">       
+              <button class="btn btn-dark px-0" style='width:60px;' type='submit'>작성</button>  
+            </div>
+          </form>
+        </td>
+      </tr>
+      <div id="comment_list">
+        {% for comment in comments %}
+        <tr>
+          <td>
+            {% if comment.user == anonymous.user %}
+            <div class="row py-2 mx-2 px-2 rounded-3 fs-5 bg-secondary bg-opacity-10">
+              <div class="col-2">글쓴이</div>
+            {% else %}
+            <div class="row py-2 mx-2 px-2 rounded-3 fs-5">
+              <div class="col-2">익명</div>
+            {% endif %}
+              <div class="col-7">{{ comment.content }}</div>
+              <div class="col-2">{{ comment.created_string }}</div>
+              <div class="col-1">
+                {% if request.user == comment.user %}
+                  <form action="{% url 'anonymous:delete_comment' anonymous.pk comment.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn px-0 text-decoration-underline mx-0 my-0 px-0 py-0" style='width:60px;'>삭제</button>
+                  </form>
+                {% endif %}
+              </div>  
+            </div>
+            
+            </td>
+          </tr>
+        {% endfor %}
+        </div>
+    </tbody>
+
+  </table>
+</div>
+{% endblock comment %}

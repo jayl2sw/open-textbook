@@ -1,0 +1,9 @@
+{% extends 'accounts_base.html' %}
+
+{% block detail %}
+<form action="{% url 'accounts:delete' %}" method="POST">
+  정말 회원 탈퇴 하시겠습니까?
+  <button class='btn btn-dark'>확인</button>
+  <a href="{% url 'accounts:index' %}" class='btn'>취소</a>
+</form>
+{% endblock detail %}

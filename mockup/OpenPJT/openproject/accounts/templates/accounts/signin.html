@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>로그인</h2>
+<hr>
+<table>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <table class="table">
+      <tbody>
+        {% for attr in form %}
+          <tr>
+            <th style='width:200px; line-height:2;' >{{ attr.label_tag }}</th>
+            <th>{{ attr }}</th>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div "float-right py-3">
+      <button class="btn btn-dark " type="submit">로그인</button>
+    </div>
+  </form>
+</table>
+{% endblock content %}

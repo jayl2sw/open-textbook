@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class='d-inline fs-2 fw-bold'>{% block subtitle %}{% endblock subtitle %}</h2>
+  <hr>
+  <div class="row my-5">
+    <div class="col-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"><p class="fs-5 fw-bold my-1">내 정보 관리</p></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><a href="{% url 'accounts:index' %}" class="btn m-0 p-0">개인정보 변경</a></th>
+          </tr>
+          <tr>
+            <th><a href="{% url 'accounts:change_password' %}" class="btn m-0 p-0">비밀번호 변경</a></th>
+          </tr>
+          <tr>
+            <th>
+              <form action="" method="POST">
+                {% csrf_token %}
+                <button class="btn m-0 p-0">회원탈퇴</button>
+              </form>
+            </th>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-9 mx-5">
+      <div>
+        {% block detail %}
+        {% endblock detail %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'anonymous_base.html' %}
+
+{% block subtitle %}
+  익명게시판
+{% endblock subtitle %}
+
+{% block detail %}
+<table class="table my-1">
+  <thead>
+    <tr class="fs-5 text-center">
+      <th scope="col" class="col-2">번호</th>
+      <th scope="col" class="col-5">제목</th>
+      <th scope="col" class="col-2">작성자</th>
+      <th scope="col" class="col-2">등록일</th>
+      <th scope="col" class="col-1">조회수</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for anonymous in anonymouses %}
+      <tr>
+        <th scope="row" class="text-center">{{ anonymous.pk }}</th>
+        <td>
+          <a href="{% url 'anonymous:detail' anonymous.pk %}" class="text-decoration-none text-black">
+            {{ anonymous.title }} 
+            {% if anonymous.comment_set %}
+            <span style='font-size:12px;'>[{{ anonymous.comment_set.all|length }}]</span>
+            {% endif %} 
+          </a>
+        </td>
+        <td class="text-center">익명</td>
+        <td class="text-center">{{ anonymous.created_string }}</td>
+        <td class="text-center">{{ anonymous.view_cnt }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+<div class="d-flex justify-content-between align-items center">
+  <div class="left" style='width:400px;'>
+    <a href="{% url 'anonymous:create' %}" class='d-inline btn btn-dark d-inline'>NEW</a>
+  </div>
+  <div class="mid text-center" style='width:400px;'>
+    <p>pagenation</p>
+  </div>
+  <div class="right text-end" style='width:400px;'>
+    <p>검색기능</p>
+  </div>
+</div>
+{% endblock detail %}  
